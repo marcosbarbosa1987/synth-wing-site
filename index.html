@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Synth Wing — música • destruição • neon</title>
+<meta name="description" content="Synth Wing: shooter musical para Android. Destrua ondas de inimigos no ritmo da música. Versão atual: offline e sem coleta de dados.">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<style>
+  :root{
+    --bg:#05030f;
+    --bg2:#0d0a26;
+    --cyan:#22d3ee;
+    --magenta:#e84bd0;
+    --purple:#7c3aed;
+    --text:#c7d2e8;
+    --white:#f1f5f9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  .mono{font-family:"Cascadia Code","SF Mono",Consolas,monospace}
+
+  /* HERO */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 38%, rgba(37,58,141,.35), transparent 70%),
+      radial-gradient(ellipse 100% 40% at 50% 100%, rgba(124,58,237,.25), transparent 70%),
+      var(--bg);
+    padding:48px 20px 0;
+  }
+  .stars{position:absolute;inset:0;pointer-events:none;
+    background-image:
+      radial-gradient(1px 1px at 12% 22%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 28% 64%, #fff6 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 41% 12%, #fff9 50%, transparent 51%),
+      radial-gradient(1px 1px at 57% 47%, #fff5 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 69% 18%, #fff8 50%, transparent 51%),
+      radial-gradient(1px 1px at 83% 58%, #fff6 50%, transparent 51%),
+      radial-gradient(1px 1px at 91% 30%, #fff7 50%, transparent 51%),
+      radial-gradient(1px 1px at 8% 78%, #fff5 50%, transparent 51%),
+      radial-gradient(1.5px 1.5px at 35% 88%, #fff6 50%, transparent 51%),
+      radial-gradient(1px 1px at 74% 82%, #fff7 50%, transparent 51%);
+  }
+  .hero img{
+    width:min(680px,92vw);
+    border-radius:14px;
+    box-shadow:0 0 60px rgba(34,211,238,.18), 0 0 120px rgba(232,75,208,.12);
+    position:relative;
+  }
+  h1.glitch{
+    font-size:clamp(2.2rem,7vw,4rem);
+    font-weight:800;letter-spacing:.12em;color:var(--cyan);
+    text-shadow:3px 3px 0 var(--magenta), 0 0 24px rgba(34,211,238,.6);
+    margin-bottom:8px;
+  }
+  .tagline{color:#a5b4d4;letter-spacing:.35em;text-transform:uppercase;font-size:.95rem;margin-bottom:36px}
+  .cta{
+    display:inline-block;padding:14px 38px;border:2px solid var(--cyan);border-radius:10px;
+    color:var(--white);text-decoration:none;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    background:rgba(13,36,48,.7);box-shadow:0 0 18px rgba(34,211,238,.35), inset 0 0 18px rgba(34,211,238,.08);
+    transition:.2s;
+  }
+  .cta:hover{background:rgba(34,211,238,.15);box-shadow:0 0 30px rgba(34,211,238,.6)}
+  .cta.secondary{border-color:var(--magenta);box-shadow:0 0 18px rgba(232,75,208,.35)}
+  .cta.secondary:hover{background:rgba(232,75,208,.15)}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;margin-top:8px}
+  .soon{margin-top:22px;color:#64748b;font-size:.85rem}
+
+  /* SECTIONS */
+  section{max-width:960px;margin:0 auto;padding:72px 24px}
+  h2{
+    color:var(--cyan);font-size:1.6rem;letter-spacing:.15em;text-transform:uppercase;
+    margin-bottom:24px;text-shadow:2px 2px 0 rgba(232,75,208,.55);
+  }
+  .about p{font-size:1.05rem;max-width:720px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:8px}
+  .card{
+    background:linear-gradient(160deg,#12102b,#0b0a1d);
+    border:1px solid rgba(124,58,237,.55);border-radius:12px;padding:22px;
+    box-shadow:0 0 14px rgba(124,58,237,.18);
+    transition:.2s;
+  }
+  .card:hover{border-color:var(--cyan);box-shadow:0 0 22px rgba(34,211,238,.3);transform:translateY(-3px)}
+  .card h3{color:var(--white);font-size:1rem;letter-spacing:.06em;margin-bottom:8px}
+  .card .ico{font-size:1.6rem;margin-bottom:10px;display:block}
+  .card p{font-size:.92rem;color:#94a3c4}
+
+  .trust{border:1px solid rgba(34,211,238,.4);border-radius:12px;padding:26px;background:rgba(13,36,48,.45)}
+  .trust ul{list-style:none}
+  .trust li{padding:7px 0;border-bottom:1px dashed rgba(124,58,237,.3)}
+  .trust li:last-child{border-bottom:none}
+  .trust li::before{content:"▸ ";color:var(--magenta)}
+
+  footer{
+    border-top:1px solid rgba(124,58,237,.4);
+    padding:34px 24px;text-align:center;color:#64748b;font-size:.88rem;
+    background:linear-gradient(180deg,transparent,rgba(124,58,237,.08));
+  }
+  footer a{color:var(--cyan);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="stars"></div>
+  <h1 class="glitch">SYNTH WING</h1>
+  <p class="tagline mono">música • destruição • neon</p>
+  <img src="assets/splash.png" alt="Synth Wing — arte principal do jogo">
+  <div class="cta-row" style="margin-top:36px">
+    <a class="cta" href="#sobre">Conheça o jogo</a>
+    <a class="cta secondary" href="privacidade.html">Política de Privacidade</a>
+  </div>
+  <p class="soon mono">Em breve no Google Play — Android</p>
+</header>
+
+<section id="sobre" class="about">
+  <h2>Sobre o jogo</h2>
+  <p>
+    <strong>Synth Wing</strong> é um shooter arcade de tela cheia para Android: pilote sua nave
+    por ondas de inimigos, chefes gigantes e campos de asteroides que explodem em sincronia com a música.
+    Controles de toque simples, ritmo intenso e visual neon retrô. Na versão atual tudo funciona offline —
+    sem anúncios, sem compras e sem cadastro.
+  </p>
+</section>
+
+<section>
+  <h2>O que te espera</h2>
+  <div class="grid">
+    <div class="card"><span class="ico">🎵</span><h3>Shooter musical</h3><p>Explosões, faíscas e destruição que pulsam no ritmo da trilha sonora.</p></div>
+    <div class="card"><span class="ico">👾</span><h3>Chefes épicos</h3><p>Aranha, Crânio, Fênix, Mecha, Olho e mais — cada um com padrões próprios.</p></div>
+    <div class="card"><span class="ico">🔫</span><h3>Arsenal variado</h3><p>Canhão, laser e mísseis, com power-ups e pickups espalhados pelas fases.</p></div>
+    <div class="card"><span class="ico">🏆</span><h3>Recordes locais</h3><p>Dispute contra sua própria melhor pontuação. Vibração háptica em cada impacto.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Transparência</h2>
+  <div class="trust">
+    <ul>
+      <li><strong>Versão atual 100% offline:</strong> o jogo não usa internet e não pede permissão de rede.</li>
+      <li><strong>Nenhum dado pessoal coletado</strong> — nada sai do seu aparelho.</li>
+      <li><strong>Versão atual sem anúncios e sem compras embutidas.</strong></li>
+      <li>Recordes e configurações ficam salvos apenas no seu dispositivo.</li>
+      <li>Apropriado para todas as idades.</li>
+      <li>Se anúncios ou compras forem adicionados em versões futuras, esta página e a Política de Privacidade serão atualizadas antes do lançamento.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Synth Wing — <a href="privacidade.html">Política de Privacidade</a></p>
+  <p style="margin-top:6px">Contato: <span class="mono">marcos.barbosa.develop@gmail.com</span></p>
+</footer>
+
+</body>
+</html>
