@@ -10,7 +10,7 @@ Não precisa de build — é HTML/CSS puro, pronto para o GitHub Pages.
 
 ## Dados do desenvolvedor (já preenchidos)
 - Desenvolvedor: **SOCM** (igual ao Play Console)
-- Contato: **marcos.barbosa.develop@gmail.com**
+- Contato: **marcos.barbosa.developer@gmail.com**
 - Obs.: o ID do pacote continua `com.hermes.beatneon` (não muda o nome da loja; não precisa alterar nada na política).
 
 ## Publicar no GitHub Pages (passo a passo)
